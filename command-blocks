@@ -1,0 +1,16 @@
+(On a server with scoretp installed, summon a villager with no AI named Robot, then put these commands in a command block chain and activate it. This will make Robot mirror your X coordinate.)
+
+(Summon the villager with a command like this)
+
+/summon villager ~ ~ ~ {CustomName:"\"Robot\"",CustomNameVisible:1,NoAI:1}
+
+(Command blocks:)
+
+execute store result score @e[name=Robot] tpX run data get block ~ ~ ~ x
+execute store result score @p tpX run data get entity @p Pos[0]
+scoreboard players operation @e[name=Robot] tpX -= @p tpX
+execute store result score Vars tpX run data get block ~ ~ ~ x
+scoreboard players operation @e[name=Robot] tpX += Vars tpX
+execute store result score @e[name=Robot] tpY run data get entity @e[name=Robot,limit=1] Pos[1]
+execute store result score @e[name=Robot] tpZ run data get entity @e[name=Robot,limit=1] Pos[2]
+execute as @e[name=Robot,limit=1] run function scoretp:tp
